@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tachitomo.eduproj.repository.InsuredMapper">
+    
+    <!-- 全件検索 -->
+    <select id="findAll" resultType="com.tachitomo.eduproj.entity.Insured">
+        SELECT * FROM testdb."INSURED"
+    </select>
+    
+    <!-- 主キー検索 -->
+    <select id="findById" resultType="com.tachitomo.eduproj.entity.Insured">
+        SELECT * FROM testdb."INSURED" WHERE "ID" = #{id}
+    </select>
+
+    <!-- 検索 -->
+    <select id="select001" resultType="com.tachitomo.eduproj.entity.Insured">
+        SELECT * FROM testdb."INSURED" WHERE "PENSION_GROUP" = #{pensionGroup} AND "PENSION_NUMBER" = #{pensionNumber}
+    </select>           
+    
+    <!-- 新規登録 -->
+    <insert id="insert">
+        INSERT INTO testdb."INSURED"
+            ("PENSION_GROUP", "PENSION_NUMBER", "ANNUITY_BOND_MARK", "ANNUITY_BOND_NUMBER", "NAME", "NAME_KANA", "CREATE_TIME", "UPDATE_TIME", "CREATE_USER", "UPDATE_USER")
+        VALUES
+            (#{pensionGroup}, #{pensionNumber}, #{annuityBondMark}, #{annuityBondNumber}, #{name}, #{nameKana}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1, 1)
+    </insert>
+    <!-- 更新 -->
+    <update id="update">
+        UPDATE testdb."INSURED" SET "PENSION_GROUP" = #{pensionGroup}, "PENSION_NUMBER" = #{pensionNumber},  "UPDATE_TIME" = CURRENT_TIMESTAMP, "UPDATE_USER" = 0, "VERSION_NUMBER" = "VERSION_NUMBER" + 1 WHERE "ID" = #{id} AND "VERSION_NUMBER" = #{versionNumber}
+    </update>
+    <!-- 論理削除 -->
+    <delete id="delete">
+        DELETE FROM testdb."INSURED" WHERE "ID" =#{id}
+    </delete>    
+</mapper>

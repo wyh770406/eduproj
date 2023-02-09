@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tachitomo.eduproj.repository.ProcessRoleMapper">
+    
+    <!-- 全件検索 -->
+    <select id="findAll" resultType="com.tachitomo.eduproj.entity.ProcessRole">
+        SELECT * FROM testdb."PROCESS_ROLE"
+    </select>
+    
+    <!-- 主キー検索 -->
+    <select id="findById" resultType="com.tachitomo.eduproj.entity.ProcessRole">
+        SELECT * FROM testdb."PROCESS_ROLE" WHERE "ID" = #{id}
+    </select>
+     
+    <!-- 新規登録 -->
+    <insert id="insert">
+        INSERT INTO testdb."PROCESS_ROLE"
+            ("USER_ID", "ROLE_ID")
+        VALUES
+            (#{userId}, #{roleId})
+    </insert>
+    <!-- 更新 -->
+    <update id="update">
+        UPDATE testdb."PROCESS_ROLE" SET "USER_ID" = #{userId}, "ROLE_ID" = #{roleId} WHERE "ID" = #{id}
+    </update>
+    <!-- 削除 -->
+    <delete id="delete">
+        DELETE FROM testdb."PROCESS_ROLE" WHERE "ID" =#{id}
+    </delete>    
+</mapper>

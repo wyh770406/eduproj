@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tachitomo.eduproj.repository.OperationHistoryMapper">
+    
+    <!-- 全件検索 -->
+    <select id="findAll" resultType="com.tachitomo.eduproj.entity.OperationHistory">
+        SELECT * FROM testdb."OPERATION_HISTORY"
+    </select>
+    
+    <!-- 主キー検索 -->
+    <select id="findById" resultType="com.tachitomo.eduproj.entity.OperationHistory">
+        SELECT * FROM testdb."OPERATION_HISTORY" WHERE "ID" = #{id}
+    </select>
+    
+
+    <!-- 新規登録 -->
+    <insert id="insert">
+        INSERT INTO testdb."OPERATION_HISTORY"
+            ("TARGET_KEY", "MESSAGE","TARGET", "REASON", "USER_ID", "OPERATION_TIME", "CREATE_TIME", "UPDATE_TIME", "CREATE_USER", "UPDATE_USER")
+        VALUES
+            (#{targetKey}, #{message}, #{target}, #{reason}, #{userId}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{userId}, #{userId})
+    </insert>
+    <!-- 更新 -->
+    <update id="update">
+        UPDATE testdb."OPERATION_HISTORY" SET "TARGET_KEY" = #{targetKey}, "TARGET_KEY" = #{targetKey}, "MESSAGE" = #{message}, "TARGET" = #{target}, "REASON" = #{reason}, "UPDATE_TIME" = CURRENT_TIMESTAMP, "UPDATE_USER" = 2 WHERE "ID" = #{id}
+    </update>
+    <!-- 論理削除 -->
+    <delete id="delete">
+        DELETE FROM testdb."OPERATION_HISTORY" WHERE "ID" =#{id}
+    </delete>    
+</mapper>

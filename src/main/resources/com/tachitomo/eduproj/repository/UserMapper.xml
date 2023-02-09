@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tachitomo.eduproj.repository.UserMapper">
+
+
+  <resultMap id="userInfoResultMap" type="com.tachitomo.eduproj.entity.User">
+    <id property="id" column="id" />
+    <collection property="userRoleList" ofType="com.tachitomo.eduproj.entity.UserRole">
+      <id property="id" column="ur_id" />
+      <result property="roleId" column="role_id"/>
+      <result property="roleName" column="name"/>
+    </collection>
+  </resultMap>
+    
+    <!-- 全件検索 -->
+    <select id="findAll" resultType="com.tachitomo.eduproj.entity.User">
+        SELECT * FROM testdb."USER"
+    </select>
+    
+    <!-- 主キー検索 -->
+    <select id="findById" resultType="com.tachitomo.eduproj.entity.User">
+        SELECT * FROM testdb."USER" WHERE "ID" = #{id}
+    </select>
+    
+    <!-- ユーザー名前検索 -->
+    <select id="findByUsername" resultType="com.tachitomo.eduproj.entity.User">
+        SELECT * FROM testdb."USER" WHERE "USERNAME" = #{name}
+    </select>    
+    
+    <!-- 条件指定検索 -->
+    <select id="search" resultType="com.tachitomo.eduproj.entity.User">
+        SELECT
+            *
+        FROM
+            testdb."USER"
+        <if test="(id != null and id != '') or (name != null and name != '') ">    
+           WHERE
+        </if>    
+            <if test="id != null and id != ''">        
+                "ID" = #{id}
+            </if> 
+            <if test="id != null and id != '' and name != null and name != ''">   
+                 AND  
+            </if>                       
+            <if test="name != null and name != ''">
+                "USERNAME" LIKE CONCAT('%', #{name}, '%')
+            </if>
+    </select>
+    <!-- 新規登録 -->
+    <insert id="save">
+        INSERT INTO testdb."USER"
+            ("USERNAME", "PASSWORD", "DISPLAY_NAME", "CREATE_USER", "UPDATE_USER")
+        VALUES
+            (#{username}, #{password}, #{displayName}, 1, 1)
+    </insert>
+    <!-- 更新 -->
+    <update id="update">
+        UPDATE testdb."USER" SET "USERNAME" = #{username}, "PASSWORD" = #{password}, "DISPLAY_NAME" = #{displayName}, "UPDATE_TIME" = CURRENT_TIMESTAMP, "UPDATE_USER" = 2 WHERE "ID" = #{id}
+    </update>
+    <!-- 論理削除 -->
+    <delete id="delete">
+        DELETE FROM testdb."USER" WHERE "ID" =#{id}
+    </delete>  
+    
+        <!-- ユーザー権限の情報を取る -->
+    <select id="findByUserInfo" resultMap="userInfoResultMap">
+    	SELECT u."ID",ur."ID" AS "ur_id",ur."ROLE_ID",r."NAME" 
+			FROM testdb."USER" u left join testdb."USER_ROLE" ur ON(u."ID"=ur."USER_ID") 
+		left join testdb."ROLE" r ON(ur."ROLE_ID"=r."ID")      WHERE u."ID" = #{id}
+    </select>  
+</mapper>

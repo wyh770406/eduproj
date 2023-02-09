@@ -1,0 +1,77 @@
+
+/**
+ * @author Go
+ * 2022/11/30
+ *
+ */
+package com.tachitomo.eduproj.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.stereotype.Repository;
+
+import com.tachitomo.eduproj.dto.ProcessAddRequest;
+import com.tachitomo.eduproj.dto.ProcessUpdateRequest;
+import com.tachitomo.eduproj.entity.Role;
+import com.tachitomo.eduproj.repository.ProcessMapper;
+
+@Repository
+public class ProcessRepository implements ProcessMapper {
+
+    @Autowired
+    private SqlSession sqlSession;
+       
+    /**
+     * 処理情報全件検索
+     * @param なし
+     * @return 検索結果
+     */
+    public List<Role> findAll(){
+    	return sqlSession.selectList("com.example.newdd.repository.ProcessMapper.findAll");
+    }   
+	
+    /**
+     * 主キー検索
+     * @param id ID
+     * @return エンティティ
+     */
+    public Role findById(Long id) {
+        return sqlSession.selectOne("com.example.newdd.repository.ProcessMapper.findById", id);
+    }	
+    
+    /**
+     * 処理情報登録
+     * @param processRequest 登録用リクエストデータ
+     */
+    public void insert(ProcessAddRequest processRequest) {
+    	int insertCount = sqlSession.insert("com.example.newdd.repository.ProcessMapper.insert", processRequest);
+        if (insertCount == 0) {
+            throw new OptimisticLockingFailureException("楽観ロックエラー");
+        }       	
+    }   
+    
+    /**
+     * 処理情報更新
+     * @param roleUpdateRequest 更新用リクエストデータ
+     */
+    public void update(ProcessUpdateRequest processUpdateRequest) {
+    	int updateCount = sqlSession.update("com.example.newdd.repository.ProcessMapper.update", processUpdateRequest);
+        if (updateCount == 0) {
+            throw new OptimisticLockingFailureException("楽観ロックエラー");
+        }
+    }    
+    
+    /**
+     * 処理情報の削除
+     * @param id ID
+     */
+    public void delete(Long id) {
+    	int deleteCount =  sqlSession.delete("com.example.newdd.repository.ProcessMapper.delete", id);
+        if (deleteCount == 0) {
+            throw new OptimisticLockingFailureException("楽観ロックエラー");
+        }    	
+    }      
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tachitomo.eduproj.repository.ProcessMapper">
+    
+    <!-- 全件検索 -->
+    <select id="findAll" resultType="com.tachitomo.eduproj.entity.Process">
+        SELECT * FROM testdb."PROCESS"
+    </select>
+    
+    <!-- 主キー検索 -->
+    <select id="findById" resultType="com.tachitomo.eduproj.entity.Process">
+        SELECT * FROM testdb."PROCESS" WHERE "ID" = #{id}
+    </select>
+    
+
+    <!-- 新規登録 -->
+    <insert id="insert">
+        INSERT INTO testdb."PROCESS"
+            ("PROCESS_NAME", "PROCESS_DISPLAY_NAME", "SCREEN_NAME", "SCREEN_DISPLAY_NAME", "CREATE_TIME", "UPDATE_TIME", "CREATE_USER", "UPDATE_USER")
+        VALUES
+            (#{processName}, #{processDisplayName}, #{screenName}, #{screenDisplayName}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1, 1)
+    </insert>
+    <!-- 更新 -->
+    <update id="update">
+        UPDATE testdb."PROCESS" SET "PROCESS_NAME" = #{processName}, "PROCESS_DISPLAY_NAME" = #{processDisplayName}, "SCREEN_NAME" = #{screenName}, "SCREEN_DISPLAY_NAME" = #{screenDisplayName},"UPDATE_TIME" = CURRENT_TIMESTAMP, "UPDATE_USER" = 2 WHERE "ID" = #{id}
+    </update>
+    <!-- 論理削除 -->
+    <delete id="delete">
+        DELETE FROM testdb."PROCESS" WHERE "ID" =#{id}
+    </delete>    
+</mapper>
