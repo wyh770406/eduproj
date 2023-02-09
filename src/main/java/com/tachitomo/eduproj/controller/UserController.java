@@ -56,6 +56,7 @@ public class UserController {
 
 	/**
 	 * ユーザー情報 Service
+	 * ユーザー情報 ServiceTESTTEST
 	 */
 	@Autowired
 	private UserService userService;
